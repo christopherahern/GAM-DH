@@ -1,3 +1,5 @@
+# Description
+
 This repository contains the source code for the paper entitled 
 "Disentangling sources of temporal clustering in intraspeaker variation using Generalized Additive Models"
 by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](http://christopherahern.github.io/)

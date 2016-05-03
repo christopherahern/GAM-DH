@@ -47,13 +47,13 @@ for (s in unique(dh.data$speaker)) {
   results = rbind(results.df, results)
 }
 
- Inspect the full model for each speaker and check diagnostics
- for (model in seq_along(models)) {
-   print(model)
-   #print(summary.gam(models[[model]])$edf)
-   print(gam.check(models[[model]])$p.value)
-   readline()
- }
+# Inspect the full model for each speaker and check diagnostics
+# for (model in seq_along(models)) {
+#   print(model)
+#   #print(summary.gam(models[[model]])$edf)
+#   print(gam.check(models[[model]])$p.value)
+#   readline()
+# }
 
 results = tbl_df(results)
 
