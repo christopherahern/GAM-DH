@@ -62,5 +62,5 @@ If you reference the results of this paper, please also cite [the Philadelphia N
 
 # Comments
 
-If you have comments or questions about anything, feel free to email meredith.tamminga@gmail.com 
+If you have comments or questions about anything, feel free to email tamminga@ling.upenn.edu 
 or [create an issue](https://github.com/christopherahern/GAM-DH/issues) on github.
