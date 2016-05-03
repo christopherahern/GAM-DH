@@ -50,13 +50,13 @@ If you reference the results of this paper, please also cite [the Philadelphia N
 
 
     @article{labov-etal:2013,
-    title={One hundred years of sound change in Philadelphia: Linear incrementation, reversal, and reanalysis},
-    author={Labov, William and Rosenfelder, Ingrid and Fruehwald, Josef},
-    journal={Language},
-    volume={89},
-    number={1},
-    pages={30--65},
-    year={2013}
+      title={One hundred years of sound change in Philadelphia: Linear incrementation, reversal, and reanalysis},
+      author={Labov, William and Rosenfelder, Ingrid and Fruehwald, Josef},
+      journal={Language},
+      volume={89},
+      number={1},
+      pages={30--65},
+      year={2013}
     }
 
 
