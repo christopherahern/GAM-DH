@@ -1,5 +1,6 @@
 data/*
 local/*
 tex/*
-src/Rplots.pdf
+src/Rplots*.pdf
+src/.ipynb_checkpoints
 NOTES
