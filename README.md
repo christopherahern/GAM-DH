@@ -23,15 +23,22 @@ To obtain the code either download the files as a [ZIP](https://github.com/chris
 
     git clone https://github.com/christopherahern/GAM-DH.git
 
-To run the code, execute the following in `src`, figures can be found in `local/out`:
+To run the code, execute the following in `src/`, figures can be found in `local/out`:
 
     Rscript code.R
 
-The output of an interactive [Jupyter](http://jupyter.org/) notebook using the 
-[R kernel](https://irkernel.github.io/) can be found
+To run the interactive notebook, we recommend installing the 
+[Anaconda](https://www.continuum.io/downloads) python distribution, and then installing
+the [R kernel](https://irkernel.github.io/) for [Jupyter](http://jupyter.org/) notebooks.
+Once you've done so, execute the following in `src/`:
+
+    ipython notebook
+
+
+The output of the notebook can also be viewed
  [here](http://nbviewer.jupyter.org/github/christopherahern/GAM-DH/blob/master/src/code.ipynb)
-without installing any additional software. If you want to run the code interactively in the
-notebook, we recommend using the [Anaconda](https://www.continuum.io/downloads) python distribution.
+without installing any additional software. 
+
 
 # Document
 
