@@ -27,11 +27,11 @@ To run the code, execute the following in `src`, figures can be found in `local/
 
     Rscript code.R
 
-
-In the future we plan to:
-* [Convert script to interactive notebook]()
-* ...
-
+The output of an interactive [Jupyter](http://jupyter.org/) notebook using the 
+[R kernel](https://irkernel.github.io/) can be found
+ [here](http://nbviewer.jupyter.org/github/christopherahern/GAM-DH/blob/master/src/code.ipynb)
+without installing any additional software. If you want to run the code interactively in the
+notebook, we recommend using the [Anaconda](https://www.continuum.io/downloads) python distribution.
 
 # Document
 
