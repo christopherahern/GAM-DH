@@ -11,13 +11,13 @@ by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](ht
 ## Data
 
 The data used in this paper come from the [Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html)
- and were coded as described in [Tamminga (2014)](). The data consist
+ and were coded as described in [Tamminga (2014) (PDF)](https://www.meredithtamminga.com/documents/Tamminga-dissertation.pdf). The data consist
 of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42 white working-class 
 Philadelphian English speakers.
 
 The data file contains the following columns:
 * File - A code to uniquely identify individual speakers. 
-* code - The auditory code for pronunciation of DH, as assigned in [Tamminga (2014)](). Takes the following values:
+* code - The auditory code for pronunciation of DH, as assigned in Tamminga (2014). Takes the following values:
   * 1 - fricative (them)
   * 2 - affricate (dthem)
   * 0 - stop/flap (dem)
