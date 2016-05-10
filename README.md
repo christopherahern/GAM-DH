@@ -15,6 +15,30 @@ The data used in this paper come from the [Philadelphia Neighborhood Corpus](htt
 of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42 white working-class 
 Philadelphian English speakers.
 
+The data file contains the following columns:
+* File - A code to uniquely identify individual speakers. The two digits after PH indicate the year of recording.
+* code - The auditory code for pronunciation of DH, as assigned in [Tamminga (2014)](). Takes the following values:
+  * 1 - fricative (them)
+  * 2 - affricate (dthem)
+  * 9 - absent ('em)
+  * 0 - stop/flap (dem)
+* PrevDH - The value of "code" for the previous token. Note that this does not always correspond to the previous row in the file; if there was an interruption PrevDH will be NA.
+* Lag - The time elapsed in seconds between the current and previous token (i.e. between code and PrevDH).
+* Seg_Start - The timestamp of the left edge of the DH segment in the FAVE-aligned Praat textgrid, in seconds.
+* Seg_End - The timestamp of the right edge of the DH segment in the FAVE-aligned Praat textgrid, in seconds.
+* Word - The word containing the current token.
+* Word_Start - The timestamp of the left edge of the word containing the token in the FAVE-aligned Praat textgrid, in seconds.
+* Word_End - The timestamp of the right edge of the word containing the token in the FAVE-aligned Praat textgrid, in seconds.
+* PrevWord - The word containing the previous token.
+* Pre_Seg - The segment preceding DH, in ARPAbet.
+* Pre_Seg_Start - The timestamp for the start of the preceding segment, in seconds.
+* Pre_Seg_End - The timestamp for the end of the preceding segment, in seconds.
+* Post_Seg - The segment following DH, in ARPAbet.
+* Post_Seg_Start - The timestamp for the start of the following segment, in seconds.
+* Post_Seg_End - The timestamp for the end of the following segment, in seconds.
+* Window - The duration in seconds of the window containing 7 words centered around the DH token.
+* Vowels_per_Second - The vowels per second contained in the Window.
+
 
 ## Code
 
