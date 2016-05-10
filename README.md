@@ -16,13 +16,13 @@ of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42
 Philadelphian English speakers.
 
 The data file contains the following columns:
-* File - A code to uniquely identify individual speakers. The two digits after PH indicate the year of recording.
+* File - A code to uniquely identify individual speakers. 
 * code - The auditory code for pronunciation of DH, as assigned in [Tamminga (2014)](). Takes the following values:
   * 1 - fricative (them)
   * 2 - affricate (dthem)
-  * 9 - absent ('em)
   * 0 - stop/flap (dem)
-* PrevDH - The value of "code" for the previous token. Note that this does not always correspond to the previous row in the file; if there was an interruption PrevDH will be NA.
+  * 9 - absent ('em) (has already been excluded from dataset)
+* PrevDH - The value of "code" for the previous token. Note that this does not necessarily correspond to the previous row in the file.
 * Lag - The time elapsed in seconds between the current and previous token (i.e. between code and PrevDH).
 * Seg_Start - The timestamp of the left edge of the DH segment in the FAVE-aligned Praat textgrid, in seconds.
 * Seg_End - The timestamp of the right edge of the DH segment in the FAVE-aligned Praat textgrid, in seconds.
@@ -38,6 +38,15 @@ The data file contains the following columns:
 * Post_Seg_End - The timestamp for the end of the following segment, in seconds.
 * Window - The duration in seconds of the window containing 7 words centered around the DH token.
 * Vowels_per_Second - The vowels per second contained in the Window.
+* gender - Speaker gender.
+* birthyear - Speaker birthyear.
+* age - Speaker age.
+* obs - The variant used in the current token, recoded to be binary. Dependent variable used in the R code for the GAMs.
+  * 1 - fricative or affricate
+  * 0 - stop/flap
+* prev - The variant used in the previous token, recoded to be binary. 
+
+
 
 
 ## Code
