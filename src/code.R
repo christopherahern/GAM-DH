@@ -61,7 +61,7 @@ ggplot(this.data, aes(x=time, y=predicted, color=prev)) +
   coord_cartesian(ylim = c(0, 1)) +
   ylab("Predicted probability") +
   xlab("Time") + theme(text = element_text(size=20))
-ggsave(file='local/style-speaker-LV.pdf')
+ggsave(file='local/style-speaker-LV.pdf', width=10)
 
 
 # Inspect the full model for each speaker and check diagnostics
@@ -122,7 +122,7 @@ ggplot(results, aes(x=priming)) + geom_density() +
   geom_dotplot(binwidth=.1) +
   ylab("Probability density") + 
   xlab("Priming estimate (in logits)") + theme(text = element_text(size=20))
-ggsave(file="local/priming-density-LV.pdf")
+ggsave(file="local/priming-density-LV.pdf", width=10)
 # These logit priming estimates are normally distributed
 shapiro.test(unique(results$priming))
 
@@ -137,12 +137,12 @@ ggplot(mod.smooths, aes(x=x, y=pred, group=speaker, color=smooth.improve)) +
   ylab("Predicted probability (centered)") + 
   ylim(-range,range) + 
   theme(legend.position="none", text = element_text(size=20), strip.text = element_blank())  
-ggsave(file='local/dynamic-style-LV.pdf')
+ggsave(file='local/dynamic-style-LV.pdf', width=10)
 
 ggplot(results, aes(x=edf)) +
   geom_density(aes(fill=smooth.improve, alpha=.5)) +
   geom_dotplot(aes(alpha=.5), binwidth=.25) + facet_wrap(~ smooth.improve) +
  xlab("Estimated degrees of freedom") + ylab("Probability density") +
  theme(legend.position="none", text = element_text(size=20), strip.text = element_blank()) 
-ggsave(file='local/edf-dynamic-LV.pdf')
+ggsave(file='local/edf-dynamic-LV.pdf', width=10)
 

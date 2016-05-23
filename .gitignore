@@ -1,4 +1,5 @@
 local/*
+data/*
 tex/*.pdf
 tex/*.aux
 tex/*.log

@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # (1) Run the Rscript
-cd src/
-Rscript code.R
-cd ..
+Rscript src/code.R
+cd tex
+pdflatex *.tex
+pdflatex *.tex
 
 
