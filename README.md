@@ -79,7 +79,7 @@ without installing any additional software.
 
 # Document
 
-To compile the document, run the following twich in `tex/`:
+To compile the document, run the following twice in `tex/`:
 
     pdflatex *.tex
 
