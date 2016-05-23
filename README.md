@@ -38,7 +38,7 @@ The data file contains the following columns:
 * Post_Seg_End - The timestamp for the end of the following segment, in seconds.
 * Window - The duration in seconds of the window containing 7 words centered around the DH token.
 * Vowels_per_Second - The vowels per second contained in the Window.
-* gender - Speaker gender.
+* sex - Speaker sex.
 * birthyear - Speaker birthyear.
 * age - Speaker age.
 * obs - The variant used in the current token, recoded to be binary. Dependent variable used in the R code for the GAMs.
@@ -56,16 +56,16 @@ To obtain the code either download the files as a [ZIP](https://github.com/chris
 
     git clone https://github.com/christopherahern/GAM-DH.git
 
-To run the code, execute the following in `src/`, figures can be found in `local/out`:
+To run the code, execute the following, which will output figures to `local/`:
 
-    Rscript code.R
+    Rscript src/code.R
 
 To run the interactive notebook, we recommend installing the 
 [Anaconda](https://www.continuum.io/downloads) python distribution, and then installing
 the [R kernel](https://irkernel.github.io/) for [Jupyter](http://jupyter.org/) notebooks.
 Once you've done so, execute the following in `src/`:
 
-    ipython notebook
+    jupyter notebook
 
 
 The output of the notebook can also be viewed
