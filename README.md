@@ -11,12 +11,12 @@ by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](ht
 ## Data
 
 The data used in this paper come from the [Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html)
- and were coded as described in [Tamminga (2014) (PDF)](https://www.meredithtamminga.com/documents/Tamminga-dissertation.pdf). The data consist
-of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42 white working-class 
+ and were coded as described in [Tamminga (2014) (PDF)](https://www.meredithtamminga.com/documents/Tamminga-dissertation.pdf). The data can be
+found in `data/dh-PNC.csv` and consist of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42 white working-class 
 Philadelphian English speakers.
 
 The data file contains the following columns:
-* File - A code to uniquely identify individual speakers. 
+* speaker - A code to uniquely identify individual speakers. 
 * code - The auditory code for pronunciation of DH, as assigned in Tamminga (2014). Takes the following values:
   * 1 - fricative (them)
   * 2 - affricate (dthem)
@@ -56,7 +56,11 @@ To obtain the code either download the files as a [ZIP](https://github.com/chris
 
     git clone https://github.com/christopherahern/GAM-DH.git
 
-To run the code, execute the following, which will output figures to `local/`:
+To run the code and compile the document, just run `make.sh`:
+
+    ./make.sh
+
+To just run the code, which will output figures to `local/`:
 
     Rscript src/code.R
 
@@ -75,7 +79,7 @@ without installing any additional software.
 
 # Document
 
-To compile the document, run the following in `tex/`:
+To compile the document, run the following twich in `tex/`:
 
     pdflatex *.tex
 
