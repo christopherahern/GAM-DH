@@ -1,4 +1,4 @@
-# Description
+#Description
 
 This repository contains the source code for the paper entitled 
 "Disentangling sources of temporal clustering in intraspeaker variation using Generalized Additive Models"
@@ -11,7 +11,7 @@ by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](ht
 ## Data
 
 The data used in this paper come from the [Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html)
- and were coded as described in [Tamminga (2014) (PDF)](https://www.meredithtamminga.com/documents/Tamminga-dissertation.pdf). The data can be
+ and were coded as described in [Tamminga (2014) (PDF)](http://www.meredithtamminga.com/documents/Tamminga-dissertation.pdf). The data can be
 found in `data/dh-PNC.csv` and consist of 14,323 tokens with word-initial DH (*this* vs. *dis*) from interviews with 42 white working-class 
 Philadelphian English speakers.
 
