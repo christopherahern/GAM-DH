@@ -1,7 +1,7 @@
 #Description
 
 This repository contains the source code for the paper entitled 
-"Disentangling sources of temporal clustering in intraspeaker variation using Generalized Additive Models"
+"Generalized Additive Mixed Models for intraspeaker variation"
 by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](http://christopherahern.github.io/)
  and [Aaron Ecay](http://www.aaronecay.com).
 
@@ -38,14 +38,15 @@ The data file contains the following columns:
 * Post_Seg_End - The timestamp for the end of the following segment, in seconds.
 * Window - The duration in seconds of the window containing 7 words centered around the DH token.
 * Vowels_per_Second - The vowels per second contained in the Window.
-* sex - Speaker sex.
+* Gender - Speaker gender.
 * birthyear - Speaker birthyear.
 * age - Speaker age.
 * obs - The variant used in the current token, recoded to be binary. Dependent variable used in the R code for the GAMs.
   * 1 - fricative or affricate
   * 0 - stop/flap
 * prev - The variant used in the previous token, recoded to be binary. 
-
+* PreSeg2 - The segment preceding DH by category
+* post.pause - whether the observation follows a pause
 
 
 
