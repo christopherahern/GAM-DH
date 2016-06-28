@@ -1,148 +1,90 @@
 # Load libraries
 print("Loading libraries")
 library(dplyr, warn.conflicts=F)
-library(tidyr, warn.conflicts=F)
 library(mgcv, warn.conflicts=F)
 library(ggplot2, warn.conflicts=F)
-library(reshape2, warn.conflicts=F)
+########################################################
 # Read in the data
 print("Reading in the data")
 dh.data = tbl_df(read.csv('data/dh-PNC.csv', header=T))
-#dh.data$obs = as.factor(dh.data$obs)
+dh.data$obs = as.factor(dh.data$obs)
+dh.data$speaker = as.factor(dh.data$speaker)
 dh.data$prev = as.factor(dh.data$prev)
 dh.data$log.lag = log(dh.data$Lag)
 dh.data$time = dh.data$Seg_Start
-# Initialize data structures
-models = list() # Fitted models
-results = data.frame() # Features of models
-values = data.frame() # Predicted contribution of smooth term
-# Fit the models for each speaker
-print("Fitting models for speakers")
+#######################################################
+# List to hold models for individual speakers
+models = list()
+# Fit models with and without s(time) for each speaker
+print("Fitting GAMs to individual speakers")
 for (s in unique(dh.data$speaker)) {
   this.data = dh.data %>% filter(speaker == s)
+  # Model with only interaction term
   mod0 = gam(obs ~ prev*log.lag, family="binomial", data = this.data)
-  mod = gam(obs ~ s(time) + prev*log.lag, family="binomial", data = this.data) #, select=T)
-  # Interpretation of coefficients
-  # prev1:  when you say 'that' you're more likely to say 'that again
-  # log(lag): decay back towards baseline after saying 'dat'
-  # prev1:log(lag): priming decay and move back to baseline
-  models[[s]] = list(mod0, mod) 
-  # (1) Smooth function of time
-  logit = plot.gam(mod)[[1]]$fit
-  pred = plogis(logit)
-  pred = pred - mean(pred)
-  # Add s(time) values to data frame
-  values.df = data.frame(speaker=rep(s,100),x=c(1:100),pred)
-  values = rbind(values.df, values)
-  # (2) Priming estimate
-  priming = coef(mod)["prev1"]
-  # (3) delta AIC
-  delta.AIC = mod0$aic - mod$aic
-  # (4) Estimated degrees of freedom from s(time)
-  edf = summary(mod)$edf
-  # Add to results data frame
-  results.df = data.frame(speaker=s, priming=priming, 
-                          priming.p=plogis(priming), 
-                          delta.AIC=delta.AIC,
-                          smooth.improve=(delta.AIC > 2),
-                          edf=edf,
-                          n=nrow(this.data))
-  results = rbind(results.df, results)
+  # Model with smooth function of time, can be penalized  out of the model by select = TRUE
+  mod = gam(obs ~ s(time) + prev*log.lag, select = TRUE, family="binomial", data = this.data)
+  models[[s]] = list(mod0, mod)
 }
-
-# Write results to local output
-write.csv(results, 'local/results.csv', row.names=F)
-
 # Plot the predicted probabilities of use for a given speaker
-this.data = dh.data %>% filter(speaker == 16)
-this.data$predicted = predict(models[[16]][[2]], type="response")
-ggplot(this.data, aes(x=time, y=predicted, color=prev)) +
-  geom_point(size = 4,alpha=.4) +
-  coord_cartesian(ylim = c(0, 1)) +
-  ylab("Predicted probability") +
-  xlab("Time") + theme(text = element_text(size=20))
-ggsave(file='local/style-speaker-LV.pdf', width=10)
+print("Plotting results for individual speaker")
+s = 22
+this.data = dh.data %>% filter(speaker == s)
+this.model = models[[s]][[2]]
+this.data$predicted = predict(this.model, type="response")
+this.smooth = data.frame(time = seq(0, max(this.data$time), length.out=100),
+			smooth = plogis(this.model$coefficients[1] + .5*this.model$coefficients[2] + plot.gam(this.model)[[1]]$fit))
+# Plot individual speaker
+ggplot(this.smooth, aes(x=time, y=smooth)) +
+  geom_line() +
+  coord_cartesian(xlim = c(-5, 3005), ylim = c(0, 1)) +
+  scale_color_manual("Previous\ntoken",labels = c("stop (\"dis\")", "fricative (\"this\")"), values = c("#f03b20", "#a6bddb")) +
+  ylab("Predicted probability of fricative (\"this\")") +
+  xlab("Time") + theme(text = element_text(size=20)) + theme_bw() +
+  geom_point(data = this.data, aes(x=time, y=predicted, color=prev), size = 4, alpha = .4)
+ggsave("local/speaker-LV.pdf", width = 7, height = 5)
+# Fit the model to all data
+print('Fitting GAMM to all speaker data') # Add estimate of time
+mod = bam(obs ~ prev*log.lag + s(prev, speaker, bs='re') +
+		s(speaker, bs='re') + s(time, by=speaker, bs="fs", m=1) +
+		post.pause + gender, data = dh.data, family='binomial')
+#mod = bam(obs ~ prev*log.lag + PreSeg2 + sex + s(prev, speaker, bs='re') + s(speaker, bs='re') +  s(time, by=speaker, bs="fs", m=1),  data = dh.data, family='binomial')
+# Extract plot data from GAM
+print('Extracting plot data')
+plot.data = plot.gam(mod, rug=FALSE)
+index.offset = 2 # NOTE: Changes depending on the position of the random smooth argument, check plot.gam(mod)[[i]]
+smooth.df = as.data.frame(summary(mod)$s.table[c((1 + index.offset):(42 + index.offset)),])
+smooth.df$p.value = smooth.df$'p-value'
+x.values = plot.data[[(1 + index.offset)]]$x 
+x.length = length(x.values)
+random.smooths = data.frame()
+for (i in c(1:42)) {
+	random.smooth = cbind(rep(i, x.length), 
+				x.values, plot.data[[(i + index.offset)]]$fit, 
+				rep(smooth.df$p.value[i], x.length), 
+				rep(smooth.df$edf[i], x.length))
+	random.smooths = rbind(random.smooth, random.smooths)
+}
+colnames(random.smooths) = c('speaker', 'time', 'smooth', 'smooth.p', 'edf')
+# Plot random smooths by speaker
+print('Plotting random smooths by speaker')
+ggplot(random.smooths, aes(x=time, y=smooth, group=speaker)) +
+        geom_line(aes(color=edf, size=edf), alpha = .8) + scale_size(range = c(1, 4), trans = 'exp') + 
+        scale_color_gradient(low = 'white', high ='#f03b20') +
+        coord_cartesian(xlim = c(-5, 5005), ylim = c(-1.25, 1.25)) +
+        xlab("Time") +
+        ylab("Random smooth by speaker (centered)") +
+        theme_bw() + theme(legend.position="none", text = element_text(size=20)) +
+	geom_hline(yintercept=0)
+ggsave('local/gamm-smooths-LV.pdf', width = 10)
+# Plot p-values by estimated degrees of freedom
+print("Plotting estimated degrees of freedom")
+ggplot(smooth.df, aes(x=edf, y=p.value, color = 'f03b20')) +
+	geom_point() +
+	coord_cartesian(xlim = c(0, 4)) +
+        xlab("Estimated degrees of freedom") +
+        ylab("P-value") +
+        theme_bw() +
+        theme(legend.position="none", text = element_text(size=20), strip.text = element_blank())
+ggsave('local/edf-p-LV.pdf')
 
-
-# Inspect the full model for each speaker and check diagnostics
-# for (model in seq_along(models)) {
-#   print(model)
-#   #print(summary.gam(models[[model]])$edf)
-#   print(gam.check(models[[model]])$p.value)
-#   readline()
-# }
-
-# Convert the results data frame and create local output directory
-results = tbl_df(results)
-dir.create('local/', mode="0777", showWarnings=FALSE)
-# Filter outliers that are visually apparent
-ggplot(results, aes(x=delta.AIC, y=priming, label=speaker)) + 
-  geom_text()
-ggplot(results, aes(x=n, y=priming, label=speaker)) + 
-  geom_text()
-# We can use being three times distant from the interquartile range
-q = quantile(results$priming)
-lower = q[2] - 3*(q[4] - q[2]) 
-upper = q[4] + 3*(q[4] - q[2])
-results = results %>% filter(lower < priming, priming  < upper)
-values = tbl_df(values)  %>% filter(speaker %in% unique(results$speaker))
-
-
-# Plot the relationships between various measures
-# Can we only detect model improvement for speakers with lots of data?
-ggplot(results, aes(x=delta.AIC, y=n, label=speaker)) + 
-  geom_text() + geom_smooth(method='lm', se=F)
-cor.test(results$delta.AIC, results$n)
-  # Seeing an improvement in the model fit is not linearly correlated
-  # with the number of data points for the speaker
-
-# Does detecting model improvement change results for priming?
-ggplot(results, aes(x=delta.AIC, y=priming, label=speaker)) + 
-  geom_text() + geom_smooth(method='lm', se=F)
-cor.test(results$delta.AIC, results$priming)
-  # Seeing an improvement in the model is not linearly correlated
-  # with the size of the priming coefficient
-
-# Is our estimate of priming affected by the amount of data?
-ggplot(results, aes(x=priming, y=n, label=speaker)) + 
-  geom_text() + geom_smooth(method='lm', se=F)
-cor.test(results$priming, results$n)
-  # The priming coefficient estimates are not linearly correlated
-  # with the number of data points for the speaker
-
-# Do model improvements correspond to higher estimated degrees of freedom?
-ggplot(results, aes(x=edf, y=delta.AIC, label=speaker)) + 
-  geom_text() + geom_smooth(method='lm', se=F) + geom_hline(yintercept=2)
-cor.test(results$edf, results$delta.AIC)
-  # The estimated degrees of freedom are linearly correlated with the
-  # improvement in the full model
-
-# Plot the priming estimates 
-ggplot(results, aes(x=priming)) + geom_density() + 
-  geom_dotplot(binwidth=.1) +
-  ylab("Probability density") + 
-  xlab("Priming estimate (in logits)") + theme(text = element_text(size=20))
-ggsave(file="local/priming-density-LV.pdf", width=10)
-# These logit priming estimates are normally distributed
-shapiro.test(unique(results$priming))
-
-# Join the data into a single data frame 
-mod.smooths = tbl_df(full_join(values, results, by="speaker"))
-
-range = max(abs(mod.smooths$pred))
-ggplot(mod.smooths, aes(x=x, y=pred, group=speaker, color=smooth.improve)) + 
-  geom_line() +  
-  facet_wrap(~ smooth.improve) +
-  xlab("Time (rescaled)") +
-  ylab("Predicted probability (centered)") + 
-  ylim(-range,range) + 
-  theme(legend.position="none", text = element_text(size=20), strip.text = element_blank())  
-ggsave(file='local/dynamic-style-LV.pdf', width=10)
-
-ggplot(results, aes(x=edf)) +
-  geom_density(aes(fill=smooth.improve, alpha=.5)) +
-  geom_dotplot(aes(alpha=.5), binwidth=.25) + facet_wrap(~ smooth.improve) +
- xlab("Estimated degrees of freedom") + ylab("Probability density") +
- theme(legend.position="none", text = element_text(size=20), strip.text = element_blank()) 
-ggsave(file='local/edf-dynamic-LV.pdf', width=10)
-
+print(summary(mod))
