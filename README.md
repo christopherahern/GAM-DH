@@ -88,21 +88,9 @@ To compile the document, run the following twice in `tex/`:
 
 If you want to cite this paper, please use the following:
 
-> Tamminga, Meredith, Christopher Ahern and Aaron Ecay. Disentangling sources of temporal clustering in intraspeaker variation using Generalized Additive Models. 2016
+> Tamminga, Meredith, Christopher Ahern and Aaron Ecay. Generalized Additive Mixed Models for intraspeaker variation. 2016
 
-If you reference the results of this paper, please also cite [the Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html)
- used:
-
-
-    @article{labov-etal:2013,
-      title={One hundred years of sound change in Philadelphia: Linear incrementation, reversal, and reanalysis},
-      author={Labov, William and Rosenfelder, Ingrid and Fruehwald, Josef},
-      journal={Language},
-      volume={89},
-      number={1},
-      pages={30--65},
-      year={2013}
-    }
+If you reference the results of this paper, please also cite [the Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html).
 
 
 # Comments
