@@ -3,7 +3,7 @@
 This repository contains the source code for the paper entitled 
 "Generalized Additive Mixed Models for intraspeaker variation"
 by [Meredith Tamminga](https://www.meredithtamminga.com), [Christopher Ahern](http://christopherahern.github.io/)
- and [Aaron Ecay](http://www.aaronecay.com).
+ and [Aaron Ecay](http://www.aaronecay.com) published in a special issue of [Linguistics Vanguard](https://www.degruyter.com/view/j/lingvan.2016.2.issue-s1/issue-files/lingvan.2016.2.issue-s1.xml) on Psycholinguistics and Language Variation..
 
 
 # Instructions
@@ -88,7 +88,7 @@ To compile the document, run the following twice in `tex/`:
 
 If you want to cite this paper, please use the following:
 
-> Tamminga, Meredith, Christopher Ahern and Aaron Ecay. Generalized Additive Mixed Models for intraspeaker variation. 2016
+> Tamminga, Meredith, Christopher Ahern and Aaron Ecay. Generalized Additive Mixed Models for intraspeaker variation. Linguistics Vanguard, Volume 2, Issue S1, Pages 33-41, 2016.
 
 If you reference the results of this paper, please also cite [the Philadelphia Neighborhood Corpus](http://fave.ling.upenn.edu/pnc.html).
 
